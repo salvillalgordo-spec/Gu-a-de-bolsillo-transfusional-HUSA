@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Bolsillo – Hemocomponentes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red-900:#7F1D1D; --red-800:#991B1B; --red-700:#B91C1C;
+  --red-600:#DC2626; --red-400:#F87171; --red-100:#FEE2E2; --red-50:#FEF7F7;
+  --g900:#1F2937; --g700:#374151; --g600:#4B5563; --g500:#6B7280;
+  --g400:#9CA3AF; --g300:#D1D5DB; --g200:#E5E7EB; --g100:#F3F4F6; --g50:#F9FAFB;
+  --white:#FFFFFF; --shadow:0 2px 12px rgba(0,0,0,.10);
+  --radius:8px; --font-body:'DM Sans',sans-serif; --font-title:'Cormorant Garamond',serif;
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:var(--font-body); background:var(--g100); color:var(--g900); font-size:14px; line-height:1.6; }
+
+/* ── HEADER ── */
+header {
+  background:linear-gradient(135deg,var(--red-900) 0%,var(--red-700) 60%,#C0392B 100%);
+  color:var(--white); padding:0; position:sticky; top:0; z-index:100;
+  box-shadow:0 3px 16px rgba(127,29,29,.45); overflow:hidden;
+}
+.header-inner { max-width:1400px; margin:auto; display:flex; align-items:stretch; justify-content:space-between; gap:0; flex-wrap:nowrap; min-height:88px; }
+.header-left { display:flex; flex-direction:column; justify-content:center; padding:18px 24px 14px; flex:1; min-width:0; }
+.header-title { font-family:var(--font-title); font-size:1.55rem; font-weight:700; letter-spacing:.03em; line-height:1.2; }
+.header-sub { font-size:.78rem; opacity:.82; margin-top:3px; font-weight:400; }
+.header-img-wrap {
+  width:320px; flex-shrink:0; position:relative; overflow:hidden;
+  display:flex; align-items:center;
+}
+.header-img-wrap img {
+  width:100%; height:100%; object-fit:cover; object-position:center 40%;
+  filter:grayscale(100%) contrast(0.85) brightness(1.05);
+  opacity:0.38; display:block;
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.9) 100%);
+  mask-image:linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.9) 100%);
+}
+.header-right { position:absolute; right:16px; top:50%; transform:translateY(-50%); }
+.badge-hospital { background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3); border-radius:20px; padding:5px 14px; font-size:.73rem; font-weight:500; letter-spacing:.04em; white-space:nowrap; }
+@media(max-width:700px){ .header-img-wrap{ width:140px; } }
+
+/* ── SEARCH BAR ── */
+.search-wrap { background:var(--red-800); padding:8px 28px; border-bottom:1px solid rgba(255,255,255,.12); }
+.search-inner { max-width:1400px; margin:auto; display:flex; align-items:center; gap:10px; }
+.search-input {
+  width:100%; max-width:440px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
+  border-radius:20px; padding:7px 16px 7px 36px; color:var(--white); font-family:var(--font-body); font-size:.85rem;
+  outline:none; transition:background .2s;
+}
+.search-input::placeholder { color:rgba(255,255,255,.6); }
+.search-input:focus { background:rgba(255,255,255,.22); }
+.search-icon { color:rgba(255,255,255,.7); font-size:1rem; position:relative; left:26px; pointer-events:none; }
+#search-results { max-width:1400px; margin:6px auto 0; display:none; }
+.search-result-item {
+  background:var(--white); border-left:3px solid var(--red-600); border-radius:4px; padding:8px 14px; margin-bottom:5px;
+  cursor:pointer; font-size:.83rem; transition:background .15s;
+}
+.search-result-item:hover { background:var(--red-50); }
+.search-result-item strong { color:var(--red-700); }
+.search-result-section { font-size:.72rem; color:var(--g500); margin-top:2px; }
+.search-highlight { background:#FCD34D; padding:1px 2px; border-radius:2px; }
+
+/* ── NAV TABS ── */
+.nav-wrap { background:var(--white); border-bottom:2px solid var(--g200); position:sticky; top:0; z-index:90; box-shadow:0 2px 6px rgba(0,0,0,.06); }
+/* Adjust sticky calculation - header+search ~ 100px */
+.nav-inner { max-width:1400px; margin:auto; display:flex; overflow-x:auto; gap:0; scrollbar-width:none; }
+.nav-inner::-webkit-scrollbar { display:none; }
+.nav-tab {
+  padding:13px 18px; font-size:.82rem; font-weight:500; color:var(--g600); cursor:pointer; white-space:nowrap;
+  border-bottom:3px solid transparent; transition:all .18s; user-select:none; letter-spacing:.02em;
+  display:flex; align-items:center; gap:6px;
+}
+.nav-tab:hover { color:var(--red-700); background:var(--red-50); }
+.nav-tab.active { color:var(--red-700); border-bottom-color:var(--red-600); font-weight:600; }
+.nav-tab .tab-num { background:var(--g100); color:var(--g500); font-size:.68rem; padding:1px 6px; border-radius:10px; font-weight:600; }
+.nav-tab.active .tab-num { background:var(--red-100); color:var(--red-700); }
+
+/* ── MAIN CONTENT ── */
+.main { max-width:1400px; margin:24px auto; padding:0 20px 40px; }
+.tab-panel { display:none; animation:fadeIn .22s ease; }
+.tab-panel.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+/* ── GRID ── */
+.grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+@media(max-width:900px) { .grid-3,.grid-4 { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:600px) { .grid-2,.grid-3,.grid-4 { grid-template-columns:1fr; } }
+
+/* ── CARDS ── */
+.card { background:var(--white); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); }
+.card-red { background:linear-gradient(135deg,var(--red-900),var(--red-700)); color:var(--white); }
+.card-red .sec-title { color:rgba(255,255,255,.85); }
+.card h3 { font-family:var(--font-title); font-size:1.1rem; font-weight:600; color:var(--red-800); margin-bottom:12px; }
+.card-red h3 { color:var(--white); }
+.card p { font-size:.84rem; color:var(--g700); line-height:1.65; }
+.card-red p { color:rgba(255,255,255,.9); }
+
+/* ── SECTION TITLES ── */
+.sec-title { font-family:var(--font-title); font-size:1.5rem; font-weight:700; color:var(--red-900); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+.sec-title::after { content:''; flex:1; height:2px; background:linear-gradient(to right,var(--red-200,#fca5a5),transparent); }
+.sub-title { font-size:.95rem; font-weight:600; color:var(--red-800); margin:18px 0 10px; border-left:3px solid var(--red-600); padding-left:10px; }
+.sub-title-sm { font-size:.85rem; font-weight:600; color:var(--g700); margin:14px 0 8px; }
+
+/* ── TABLES ── */
+.tbl-wrap { overflow-x:auto; border-radius:var(--radius); box-shadow:var(--shadow); }
+table { width:100%; border-collapse:collapse; background:var(--white); font-size:.82rem; }
+thead tr { background:var(--red-900); color:var(--white); }
+thead th { padding:10px 13px; text-align:left; font-weight:600; letter-spacing:.03em; font-size:.8rem; white-space:nowrap; }
+tbody tr:nth-child(even) { background:var(--g50); }
+tbody tr:hover { background:var(--red-50); }
+tbody td { padding:9px 13px; border-bottom:1px solid var(--g200); color:var(--g700); vertical-align:top; }
+tbody td strong { color:var(--g900); }
+
+/* ── ALERT BOXES ── */
+.alert { border-radius:var(--radius); padding:12px 16px; margin-bottom:14px; font-size:.83rem; display:flex; align-items:flex-start; gap:10px; }
+.alert-red { background:var(--red-50); border-left:4px solid var(--red-600); color:var(--red-900); }
+.alert-grey { background:var(--g50); border-left:4px solid var(--g400); color:var(--g700); }
+.alert-green { background:#F0FDF4; border-left:4px solid #16A34A; color:#14532D; }
+.alert-amber { background:#FFFBEB; border-left:4px solid #D97706; color:#78350F; }
+.alert-icon { font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+
+/* ── STAT BLOCKS ── */
+.stat-block { background:var(--white); border-radius:var(--radius); padding:16px 20px; box-shadow:var(--shadow); text-align:center; border-top:3px solid var(--red-600); }
+.stat-num { font-family:var(--font-title); font-size:1.6rem; font-weight:700; color:var(--red-700); }
+.stat-label { font-size:.76rem; color:var(--g500); margin-top:4px; line-height:1.4; }
+
+/* ── PILLS / BADGES ── */
+.pill { display:inline-block; padding:3px 10px; border-radius:12px; font-size:.73rem; font-weight:600; margin:2px; }
+.pill-red { background:var(--red-100); color:var(--red-800); }
+.pill-grey { background:var(--g100); color:var(--g700); }
+.pill-green { background:#DCFCE7; color:#166534; }
+.pill-amber { background:#FEF3C7; color:#92400E; }
+.pill-dark { background:var(--g700); color:var(--white); }
+
+/* ── CHECKLIST ── */
+.checklist { list-style:none; }
+.checklist li { padding:6px 0 6px 22px; position:relative; border-bottom:1px solid var(--g100); font-size:.83rem; color:var(--g700); }
+.checklist li::before { content:'▸'; color:var(--red-600); position:absolute; left:0; font-size:.85rem; }
+.checklist li:last-child { border-bottom:none; }
+.no-bullet { list-style:none; }
+.no-bullet li { padding:4px 0; font-size:.83rem; color:var(--g700); border-bottom:1px solid var(--g100); }
+
+/* ── PROTOCOL STEPS ── */
+.step-list { list-style:none; counter-reset:steps; }
+.step-list li { counter-increment:steps; display:flex; gap:12px; padding:8px 0; border-bottom:1px solid var(--g100); font-size:.83rem; color:var(--g700); align-items:flex-start; }
+.step-list li::before { content:counter(steps); background:var(--red-700); color:var(--white); border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; flex-shrink:0; margin-top:1px; }
+.step-list li:last-child { border-bottom:none; }
+
+/* ── LEGISLATION TAGS ── */
+.leg-tag { display:inline-block; background:var(--g900); color:var(--white); border-radius:4px; padding:3px 10px; font-size:.72rem; font-weight:600; margin-right:6px; margin-bottom:4px; }
+
+/* ── INDEX CARDS ── */
+.index-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:10px; }
+.index-card { background:var(--white); border-radius:var(--radius); padding:14px 16px; cursor:pointer; border:1px solid var(--g200); transition:all .18s; display:flex; align-items:center; gap:10px; }
+.index-card:hover { border-color:var(--red-400); background:var(--red-50); transform:translateY(-2px); box-shadow:0 4px 14px rgba(185,28,28,.15); }
+.index-card .ic-num { background:var(--red-100); color:var(--red-700); font-weight:700; font-size:.85rem; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.index-card .ic-title { font-size:.82rem; font-weight:500; color:var(--g700); line-height:1.3; }
+
+/* ── SUB-TABS ── */
+.subtab-row { display:flex; gap:0; margin-bottom:20px; border-bottom:2px solid var(--g200); overflow-x:auto; scrollbar-width:none; }
+.subtab-row::-webkit-scrollbar { display:none; }
+.subtab { padding:9px 16px; font-size:.8rem; font-weight:500; cursor:pointer; color:var(--g600); border-bottom:2px solid transparent; margin-bottom:-2px; white-space:nowrap; transition:all .15s; }
+.subtab:hover { color:var(--red-700); }
+.subtab.active { color:var(--red-700); border-bottom-color:var(--red-600); font-weight:600; }
+.subtab-panel { display:none; }
+.subtab-panel.active { display:block; }
+
+/* ── THRESHOLD BOX ── */
+.thresh { display:flex; gap:8px; flex-wrap:wrap; margin:10px 0; }
+.thresh-item { flex:1; min-width:120px; background:var(--white); border:1px solid var(--g200); border-radius:var(--radius); padding:12px; text-align:center; }
+.thresh-val { font-family:var(--font-title); font-size:1.2rem; font-weight:700; color:var(--red-700); }
+.thresh-label { font-size:.72rem; color:var(--g600); margin-top:4px; line-height:1.35; }
+.thresh-item.trigger { border-color:var(--red-400); background:var(--red-50); }
+.thresh-item.trigger .thresh-val { color:var(--red-800); }
+
+/* ── FOOTER ── */
+footer { background:var(--g900); color:var(--g400); text-align:center; padding:16px 20px; font-size:.74rem; margin-top:40px; }
+footer a { color:var(--g300); text-decoration:none; }
+
+/* ── DIVIDER ── */
+hr.sec { border:none; border-top:1px solid var(--g200); margin:20px 0; }
+
+/* ── SMALL UTILS ── */
+.mt0{margin-top:0} .mt8{margin-top:8px} .mt12{margin-top:12px} .mt16{margin-top:16px} .mt20{margin-top:20px}
+.mb0{margin-bottom:0} .mb12{margin-bottom:12px} .mb16{margin-bottom:16px}
+.txt-sm{font-size:.78rem} .txt-xs{font-size:.72rem} .txt-grey{color:var(--g500)}
+.bold{font-weight:600} .red{color:var(--red-700)}
+.full-width{width:100%}
+.flex{display:flex; gap:12px; flex-wrap:wrap; align-items:flex-start;}
+.col-2{flex:1; min-width:260px;}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="header-title">🩸 Guía de Bolsillo de Uso de Hemocomponentes</div>
+      <div class="header-sub">Comité Hospitalario de Transfusión · Hospital Universitario San Agustín · Área Sanitaria III (SESPA) · Diciembre 2024</div>
+    </div>
+    <div class="header-img-wrap">
+      <img src="data:image/jpeg;base64,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" alt="Hospital Universitario San Agustín">
+      <div class="header-right">
+        <span class="badge-hospital">HUSAGUSTÍN · SESPA</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════ SEARCH ══════════════════ -->
+<div class="search-wrap">
+  <div class="search-inner">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="Buscar en la guía… (ej: plaquetas, PFC, TRALI, heparina…)" autocomplete="off">
+  </div>
+  <div id="search-results"></div>
+</div>
+
+<!-- ══════════════════ NAV TABS ══════════════════ -->
+<div class="nav-wrap">
+  <div class="nav-inner" id="mainNav">
+    <div class="nav-tab active" onclick="showTab('inicio',this)"><span>🏠</span> Inicio</div>
+    <div class="nav-tab" onclick="showTab('donacion',this)"><span class="tab-num">1</span> Donación &amp; Pruebas</div>
+    <div class="nav-tab" onclick="showTab('adversos',this)"><span class="tab-num">2</span> Efectos Adversos</div>
+    <div class="nav-tab" onclick="showTab('hemovig',this)"><span class="tab-num">3</span> Hemovigilancia</div>
+    <div class="nav-tab" onclick="showTab('componentes',this)"><span class="tab-num">4</span> Componentes</div>
+    <div class="nav-tab" onclick="showTab('irradiados',this)"><span class="tab-num">5</span> Irradiados</div>
+    <div class="nav-tab" onclick="showTab('alternativas',this)"><span class="tab-num">6</span> Alternativas</div>
+    <div class="nav-tab" onclick="showTab('derivados',this)"><span class="tab-num">7</span> Derivados Plasmáticos</div>
+    <div class="nav-tab" onclick="showTab('practica',this)"><span class="tab-num">8</span> Práctica Transfusional</div>
+  </div>
+</div>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<div class="main">
+
+<!-- ─────── TAB: INICIO ─────── -->
+<div class="tab-panel active" id="tab-inicio">
+  <div class="sec-title">Inicio Rápido</div>
+
+  <div class="grid-4 mb16">
+    <div class="stat-block">
+      <div class="stat-num">42 días</div>
+      <div class="stat-label">Caducidad concentrado de hematíes (CH-SAGM, 2-6ºC)</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">7 días</div>
+      <div class="stat-label">Caducidad concentrado de plaquetas (22ºC en agitación)</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">36 meses</div>
+      <div class="stat-label">Caducidad PFC y crioprecipitado (congelado &lt;−25ºC)</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">≤ 4 h</div>
+      <div class="stat-label">Tiempo máximo de transfusión de hematíes</div>
+    </div>
+  </div>
+
+  <div class="grid-2 mb16">
+    <div class="card card-red">
+      <h3>Propósito de la guía</h3>
+      <p>Resumir la información necesaria para realizar la transfusión y la administración de componentes sanguíneos de la forma más segura posible. La transfusión es una terapéutica transitoria, personalizada y con riesgos potenciales bien establecidos.</p>
+    </div>
+    <div class="card">
+      <h3>Riesgo residual transfusional en España</h3>
+      <div class="tbl-wrap mt8">
+        <table>
+          <thead><tr><th>Agente</th><th>Riesgo estimado</th></tr></thead>
+          <tbody>
+            <tr><td>Virus Hepatitis C (VHC)</td><td><strong>1 / 2.381.000</strong> donaciones</td></tr>
+            <tr><td>VIH 1/2</td><td><strong>1 / 806.000</strong> donaciones</td></tr>
+            <tr><td>Virus Hepatitis B (VHB)</td><td><strong>1 / 177.000</strong> donaciones</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt8 txt-xs txt-grey">Riesgo relacionado principalmente con donaciones en "período ventana".</p>
+    </div>
+  </div>
+
+  <div class="sub-title">Índice de acceso rápido</div>
+  <div class="index-grid">
+    <div class="index-card" onclick="showTab('donacion',null)"><div class="ic-num">1</div><div class="ic-title">Donación, etiquetado y pruebas analíticas</div></div>
+    <div class="index-card" onclick="showTab('adversos',null)"><div class="ic-num">2</div><div class="ic-title">Efectos adversos: agudos y retardados</div></div>
+    <div class="index-card" onclick="showTab('hemovig',null)"><div class="ic-num">3</div><div class="ic-title">Hemovigilancia y notificación</div></div>
+    <div class="index-card" onclick="showTab('componentes',null)"><div class="ic-num">4</div><div class="ic-title">Componentes: hematíes, plaquetas, PFC, crioprecipitado</div></div>
+    <div class="index-card" onclick="showTab('irradiados',null)"><div class="ic-num">5</div><div class="ic-title">Componentes irradiados: indicaciones</div></div>
+    <div class="index-card" onclick="showTab('alternativas',null)"><div class="ic-num">6</div><div class="ic-title">Alternativas a sangre alogénica (PAS)</div></div>
+    <div class="index-card" onclick="showTab('derivados',null)"><div class="ic-num">7</div><div class="ic-title">Derivados plasmáticos: albúmina, Ig, factores</div></div>
+    <div class="index-card" onclick="showTab('practica',null)"><div class="ic-num">8</div><div class="ic-title">Práctica transfusional: solicitud, velocidad, reacciones</div></div>
+  </div>
+
+  <div class="sub-title mt20">Umbrales transfusionales de referencia rápida</div>
+  <div class="flex">
+    <div class="col-2">
+      <div class="sub-title-sm">Concentrado de Hematíes — adulto</div>
+      <div class="thresh">
+        <div class="thresh-item trigger"><div class="thresh-val">&lt;7 g/dl</div><div class="thresh-label">Paciente previamente sano → <strong>Transfundir</strong></div></div>
+        <div class="thresh-item trigger"><div class="thresh-val">&lt;8–9 g/dl</div><div class="thresh-label">Hemorragia / dificultad adaptación (&gt;65a, DM, ECV…)</div></div>
+        <div class="thresh-item trigger"><div class="thresh-val">&lt;9–10 g/dl</div><div class="thresh-label">Insuficiencia cardiaca o coronaria previa</div></div>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="sub-title-sm">Concentrado de Plaquetas — adulto</div>
+      <div class="thresh">
+        <div class="thresh-item trigger"><div class="thresh-val">&lt;10×10⁹/L</div><div class="thresh-label">Profilaxis general (&lt;5 en aplasia estable)</div></div>
+        <div class="thresh-item trigger"><div class="thresh-val">&lt;20×10⁹/L</div><div class="thresh-label">Factor de riesgo añadido (infección, anticoagulación)</div></div>
+        <div class="thresh-item trigger"><div class="thresh-val">&lt;50×10⁹/L</div><div class="thresh-label">Procedimiento invasivo o hemorragia activa</div></div>
+        <div class="thresh-item trigger"><div class="thresh-val">&lt;100×10⁹/L</div><div class="thresh-label">Cirugía en SNC o globo ocular</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-red mt16">
+    <span class="alert-icon">🚨</span>
+    <div><strong>Ante cualquier reacción adversa:</strong> PARAR la transfusión · Mantener vía IV con SSF · Avisar médico · Verificar identidad/etiqueta · Contactar Servicio Transfusión · Guardar la bolsa.</div>
+  </div>
+</div>
+
+<!-- ─────── TAB: DONACIÓN ─────── -->
+<div class="tab-panel" id="tab-donacion">
+  <div class="sec-title">Donación, Etiquetado y Pruebas Analíticas</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Donación y donantes</h3>
+      <p>La sangre para transfusión sólo puede obtenerse de donantes. Se requiere un colectivo <strong>altruista, repetitivo, responsable y suficiente</strong>. La incorporación continua de nuevos donantes es imprescindible para garantizar el suministro.</p>
+    </div>
+    <div class="card">
+      <h3>Etiquetado obligatorio de los componentes</h3>
+      <ul class="checklist">
+        <li>Datos del centro procesador</li>
+        <li>Nombre del producto (y modificaciones en composición)</li>
+        <li>Número de identificación de la donación</li>
+        <li>Grupo ABO y Rh(D) y otros sistemas si necesario</li>
+        <li>Fechas de extracción y caducidad (± hora)</li>
+        <li>Resultados de marcadores infecciosos</li>
+        <li>Anticoagulante y/o conservantes utilizados</li>
+        <li>Volumen del producto</li>
+        <li>Temperatura y condiciones de conservación</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-title mt20">Pruebas analíticas obligatorias en cada donación</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Determinación</th><th>Notas</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Grupo ABO y Rh(D)</strong></td><td>Obligatorio en todas las donaciones</td></tr>
+        <tr><td><strong>Escrutinio de anticuerpos irregulares antieritrocitarios</strong></td><td>—</td></tr>
+        <tr><td><strong>Antígeno de superficie VHB (HBsAg)</strong></td><td>Detección de hepatitis B</td></tr>
+        <tr><td><strong>Anticuerpos anti-VIH 1 y 2</strong></td><td>—</td></tr>
+        <tr><td><strong>Anticuerpos anti-VHC</strong></td><td>—</td></tr>
+        <tr><td><strong>Detección genómica directa VHC</strong></td><td>Reduce período ventana</td></tr>
+        <tr><td><strong>Prueba serológica de sífilis</strong></td><td>—</td></tr>
+        <tr><td><em>Análisis adicionales en receptores especiales</em></td><td>Para prevenir complicaciones inmunológicas/infecciosas en riesgo específico</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub-title mt20">Riesgo residual en España (período ventana)</div>
+  <div class="grid-3">
+    <div class="stat-block"><div class="stat-num">1/2.381.000</div><div class="stat-label">Virus Hepatitis C (VHC)</div></div>
+    <div class="stat-block"><div class="stat-num">1/806.000</div><div class="stat-label">VIH 1/2</div></div>
+    <div class="stat-block"><div class="stat-num">1/177.000</div><div class="stat-label">Virus Hepatitis B (VHB)</div></div>
+  </div>
+  <p class="mt8 txt-sm txt-grey">A pesar de todas las medidas de seguridad, existe un riesgo residual mínimo relacionado con donaciones durante el "período ventana", cuando el agente es indetectable analíticamente.</p>
+</div>
+
+<!-- ─────── TAB: EFECTOS ADVERSOS ─────── -->
+<div class="tab-panel" id="tab-adversos">
+  <div class="sec-title">Efectos Adversos de la Transfusión</div>
+
+  <div class="grid-2 mb16">
+    <div class="card">
+      <h3>⚡ Complicaciones agudas <span class="pill pill-red">≤ 24 h</span></h3>
+      <div class="sub-title-sm mt8">Origen inmunológico</div>
+      <ul class="checklist">
+        <li>Reacción hemolítica aguda</li>
+        <li>Reacción febril no hemolítica</li>
+        <li>Reacción alérgica</li>
+        <li>Lesión pulmonar aguda asociada a transfusión (TRALI)</li>
+        <li>Aloinmunización con destrucción plaquetar inmediata</li>
+      </ul>
+      <div class="sub-title-sm mt8">Origen no inmunológico</div>
+      <ul class="checklist">
+        <li>Contaminación bacteriana</li>
+        <li>Sobrecarga circulatoria</li>
+        <li>Hemólisis no inmune</li>
+        <li>Reacciones hipotensivas</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🕐 Complicaciones retardadas <span class="pill pill-grey">&gt; 24 h</span></h3>
+      <div class="sub-title-sm mt8">Origen inmunológico</div>
+      <ul class="checklist">
+        <li>Reacción hemolítica retardada</li>
+        <li>Aloinmunización (antígenos eritrocitarios, plaquetarios, leucocitarios o proteínas plasmáticas)</li>
+        <li>Púrpura postransfusional</li>
+        <li>Enfermedad del injerto contra el huésped postransfusional</li>
+        <li>Inmunomodulación</li>
+      </ul>
+      <div class="sub-title-sm mt8">Origen no inmunológico</div>
+      <ul class="checklist">
+        <li>Transmisión de agentes infecciosos</li>
+        <li>Hemosiderosis transfusional</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-title">Protocolo de actuación ante reacción transfusional</div>
+  <div class="alert alert-red mb12">
+    <span class="alert-icon">🚨</span>
+    <div><strong>Síntomas de alarma:</strong> Fiebre, escalofríos, taquicardia, hiper/hipotensión, shock, rash, urticaria, dolor torácico/muscular/óseo/abdominal, náuseas, malestar general, taquipnea, disnea, distress respiratorio.</div>
+  </div>
+
+  <div class="step-list">
+    <li><strong>PARAR la transfusión</strong> — limitar la cantidad infundida.</li>
+    <li>Mantener vía IV e infundir suero fisiológico (SSF) isotónico.</li>
+    <li><strong>Avisar al médico responsable</strong> del paciente.</li>
+    <li>Verificar registros, etiquetas e identidad del receptor y la unidad.</li>
+    <li>Controlar: temperatura, TA, FC, FR y diuresis.</li>
+    <li>Comunicar de inmediato al <strong>Servicio de Transfusiones</strong> y seguir instrucciones.</li>
+    <li>Enviar la bolsa + impreso de registro de reacciones al Servicio de Transfusión.</li>
+  </div>
+
+  <div class="sub-title mt20">Actuación según tipo de reacción</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Reacción</th><th>Criterios</th><th>Actuación principal</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Febril no hemolítica</strong></td>
+          <td>Aumento Tª &lt;1,5ºC, constantes estables</td>
+          <td>Paracetamol · Reiniciar a ritmo más lento · Vigilar</td>
+        </tr>
+        <tr>
+          <td><strong>Alérgica moderada (urticaria)</strong></td>
+          <td>Fiebre moderada o rash urticariforme</td>
+          <td>Clorfenamina 10 mg IV lento · Reiniciar a ritmo más lento</td>
+        </tr>
+        <tr>
+          <td><strong>Alérgica grave</strong></td>
+          <td>Broncoespasmo, angioedema, hipotensión</td>
+          <td>Parar · Retirar unidad · Clorfenamina 10 mg IV · O₂ · Salbutamol · Si hipotensión severa: adrenalina 0,5 ml 1/1000 IM (=0,5 mg)</td>
+        </tr>
+        <tr>
+          <td><strong>Incompatibilidad ABO</strong></td>
+          <td>Sospecha de error de grupo</td>
+          <td>Parar · SSF IV · Remitir unidad al banco · Mantener diuresis &gt;100 ml/h · Furosemida si anuria · Tratar CID si aparece · Avisar urgente a Hematología</td>
+        </tr>
+        <tr>
+          <td><strong>Hemólisis / Contaminación bacteriana</strong></td>
+          <td>Hemólisis o infección en la unidad</td>
+          <td>Parar · Retirar unidad · Hemocultivos · Antibiótico amplio espectro · O₂ · Vigilar diuresis · Consultar UCI y Hematología</td>
+        </tr>
+        <tr>
+          <td><strong>Sobrecarga circulatoria (TACO)</strong></td>
+          <td>PVC elevada, disnea, hipotensión</td>
+          <td>O₂ · Furosemida 40–80 mg IV</td>
+        </tr>
+        <tr>
+          <td><strong>TRALI</strong></td>
+          <td>Insuf. respiratoria aguda + fiebre/escalofríos, PVC normal</td>
+          <td>Parar · O₂ · Tratar como SDRA · Ventilación asistida si hipoxia</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ─────── TAB: HEMOVIGILANCIA ─────── -->
+<div class="tab-panel" id="tab-hemovig">
+  <div class="sec-title">Hemovigilancia</div>
+
+  <div class="alert alert-grey mb16">
+    <span class="alert-icon">ℹ️</span>
+    <div><strong>Hemovigilancia (HV):</strong> Conjunto de procedimientos organizados de vigilancia sobre efectos y reacciones adversas a lo largo de toda la cadena transfusional (selección de donantes → extracción → procesamiento → análisis → transfusión), con el objetivo de prevenir y tratar su aparición o recurrencia.</div>
+  </div>
+
+  <div class="grid-2 mb16">
+    <div class="card">
+      <h3>Marco legal</h3>
+      <div style="margin-top:8px">
+        <span class="leg-tag">RD 1088/2005</span>
+        <p class="txt-sm mt8">Transpone Directiva Europea 2002/98/CE. Establece requisitos técnicos y condiciones mínimas de la hemodonación. Recoge artículos sobre <em>trazabilidad</em> y <em>notificación de incidentes y complicaciones graves</em>.</p>
+      </div>
+      <div style="margin-top:12px">
+        <span class="leg-tag">Orden SCO/322/2007</span>
+        <p class="txt-sm mt8">Transpone Directiva Europea 2005/61/CE. Establece la <strong>obligatoriedad</strong> de comunicar incidentes y complicaciones graves a la autoridad sanitaria competente.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Sistema Estatal de HV (SEHV) — 3 niveles</h3>
+      <div class="tbl-wrap mt8">
+        <table>
+          <thead><tr><th>Nivel</th><th>Actor</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Nivel 1</strong></td><td>Servicios y Centros de Transfusión</td><td>Notifica efectos y reacciones adversas. Remite al coordinador autonómico de HV.</td></tr>
+            <tr><td><strong>Nivel 2</strong></td><td>Coordinador Autonómico de HV</td><td>Recibe notificaciones, transmite al Ministerio, elabora informe anual de HV. Enlace CCAA–Ministerio.</td></tr>
+            <tr><td><strong>Nivel 3</strong></td><td>Unidad de HV del Ministerio</td><td>Coordina la actividad de HV de las CCAA. Transmite información a la Comisión Europea.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex">
+    <div class="col-2">
+      <div class="sub-title">Escalas de notificación</div>
+      <div class="sub-title-sm">Gravedad</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Grado</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pill-grey">0</span></td><td>Ausencia de signos y síntomas</td></tr>
+            <tr><td><span class="pill pill-green">1</span></td><td>Signos inmediatos sin riesgo vital; resolución total</td></tr>
+            <tr><td><span class="pill pill-amber">2</span></td><td>Signos inmediatos con riesgo vital</td></tr>
+            <tr><td><span class="pill pill-red">3</span></td><td>Morbilidad de larga duración</td></tr>
+            <tr><td><span class="pill pill-dark">4</span></td><td>Muerte del paciente</td></tr>
+            <tr><td><span class="pill pill-grey">NC</span></td><td>No constan datos relativos a la gravedad</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="sub-title">&#8203;</div>
+      <div class="sub-title-sm">Imputabilidad</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Grado</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pill-grey">0</span> Sin relación</td><td>Evidencia de que el componente NO es responsable</td></tr>
+            <tr><td><span class="pill pill-amber">1</span> Posible</td><td>Podría deberse o no a causa distinta a la transfusión</td></tr>
+            <tr><td><span class="pill pill-red">2</span> Probable</td><td>No parece explicable por otra causa distinta</td></tr>
+            <tr><td><span class="pill pill-dark">3</span> Segura</td><td>Probado o muy probablemente debido a la transfusión</td></tr>
+            <tr><td><span class="pill pill-grey">NE</span></td><td>Datos insuficientes para evaluar</td></tr>
+            <tr><td><span class="pill pill-grey">NC</span></td><td>No constan datos relativos a imputabilidad</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title mt20">Formularios de notificación (Ministerio de Sanidad)</div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Formularios</h3>
+      <ul class="checklist">
+        <li>Reacción transfusional</li>
+        <li>Incidente relacionado con la transfusión</li>
+        <li>Incidente relacionado con la donación</li>
+        <li>Incidente relacionado con la preparación de componentes sanguíneos</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Cuestionarios específicos</h3>
+      <ul class="checklist">
+        <li>Reacciones hemolíticas agudas y retardadas</li>
+        <li>Reacción febril y/o hipotensiva</li>
+        <li>Reacción alérgica/anafiláctica</li>
+        <li>Edema pulmonar: cardiogénico y no cardiogénico</li>
+        <li>Púrpura postransfusional</li>
+        <li>Enfermedad injerto contra huésped asociada a transfusión</li>
+        <li>Contaminación bacteriana · Infección postransfusional vírica</li>
+        <li>Hemosiderosis transfusional</li>
+        <li>Errores en la administración · Casi incidentes</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-title mt16">Datos mínimos de la notificación</div>
+  <div class="grid-3">
+    <div class="card"><h3>Paciente</h3><ul class="checklist"><li>Fecha de nacimiento + sexo + nº de identificación exclusivo</li><li>Signos y síntomas del efecto adverso</li><li>Pruebas de laboratorio realizadas</li><li>Evolución del paciente</li></ul></div>
+    <div class="card"><h3>Componente</h3><ul class="checklist"><li>Número de unidad y código de donación/donante</li><li>Tipo de componente y tipo de preparación</li><li>Otras características relevantes</li><li>Condiciones y duración del almacenamiento</li></ul></div>
+    <div class="card"><h3>CHT — Funciones clave</h3><ul class="checklist"><li>Implementar medidas correctoras y preventivas</li><li>Seguimiento del grado de cumplimiento y eficacia</li><li>Conocer nº de componentes transfundidos anualmente</li><li>Mantener actualizada la Guía de uso e indicación</li></ul></div>
+  </div>
+</div>
+
+<!-- ─────── TAB: COMPONENTES ─────── -->
+<div class="tab-panel" id="tab-componentes">
+  <div class="sec-title">Transfusión de Componentes Sanguíneos</div>
+  <div class="alert alert-amber mb12">
+    <span class="alert-icon">⚠️</span>
+    <div>La transfusión es <strong>terapéutica transitoria y personalizada</strong>. Hay que seleccionar el componente adecuado, la dosis correcta, y aplicar indicaciones estrictas.</div>
+  </div>
+
+  <div class="subtab-row" id="compSubtabs">
+    <div class="subtab active" onclick="showSubtab('comp','hematies',this)">🔴 Hematíes</div>
+    <div class="subtab" onclick="showSubtab('comp','plaquetas',this)">🟡 Plaquetas</div>
+    <div class="subtab" onclick="showSubtab('comp','pfc',this)">🔵 Plasma (PFC)</div>
+    <div class="subtab" onclick="showSubtab('comp','crioprecip',this)">⚪ Crioprecipitado</div>
+  </div>
+
+  <!-- HEMATÍES -->
+  <div class="subtab-panel active" id="comp-hematies">
+    <div class="grid-4 mb16">
+      <div class="stat-block"><div class="stat-num">2–6 ºC</div><div class="stat-label">Temperatura conservación</div></div>
+      <div class="stat-block"><div class="stat-num">42 días</div><div class="stat-label">Caducidad CH-SAGM</div></div>
+      <div class="stat-block"><div class="stat-num">+0,8 g/dl</div><div class="stat-label">Elevación Hb por unidad (varón 70 kg)</div></div>
+      <div class="stat-block"><div class="stat-num">≤ 4 h</div><div class="stat-label">Tiempo máximo transfusión</div></div>
+    </div>
+
+    <div class="flex">
+      <div class="col-2">
+        <div class="sub-title">Indicaciones — Adulto</div>
+
+        <div class="sub-title-sm">1. Anemia aguda</div>
+        <div class="alert alert-grey">Mantener volemia al 100% con cristaloides/coloides primero.</div>
+        <div class="thresh">
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;7–8 g/dl</div><div class="thresh-label">Paciente previamente sano</div></div>
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;8–9 g/dl</div><div class="thresh-label">Hemorragia incontrolada / dificultad adaptación (&gt;65a, DM, ECV, ER)</div></div>
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;9–10 g/dl</div><div class="thresh-label">Antecedentes de insuficiencia cardiaca o coronaria</div></div>
+        </div>
+        <p class="txt-xs txt-grey mt8">Reponer factores coagulación según hemostasia a partir de pérdidas &gt;100% volemia.</p>
+
+        <div class="sub-title-sm mt12">2. Anemia perioperatoria</div>
+        <p class="txt-sm">Mismos criterios que en anemia aguda.</p>
+
+        <div class="sub-title-sm mt12">3. Anemia crónica</div>
+        <p class="txt-sm">1º tratar causa (hierro, B12, folato…). 2º transfundir solo si sintomatología anémica:</p>
+        <div class="thresh">
+          <div class="thresh-item"><div class="thresh-val" style="color:var(--g500)">&gt;10 g/dl</div><div class="thresh-label">Casi nunca transfundir</div></div>
+          <div class="thresh-item"><div class="thresh-val" style="color:var(--red-400)">7–10 g/dl</div><div class="thresh-label">Decisión clínica individualizada</div></div>
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;7 g/dl</div><div class="thresh-label">Transfundir</div></div>
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="sub-title">Indicaciones — Pediátrico</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Situación clínica</th><th>Neonato</th><th>Lactante / Escolar</th></tr></thead>
+            <tbody>
+              <tr><td>Enf. cardiopulmonar grave</td><td>13 g/dl</td><td>12 g/dl</td></tr>
+              <tr><td>Enf. cardiopulmonar moderada</td><td>10 g/dl</td><td>10 g/dl</td></tr>
+              <tr><td>Anemia sintomática</td><td>8 g/dl (10 1ª semana)</td><td>8 g/dl</td></tr>
+              <tr><td>Cirugía mayor</td><td>10 g/dl</td><td>8 g/dl</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sub-title mt16">Contraindicaciones</div>
+        <div class="alert alert-red">No usar cuando la anemia es tratable con productos específicos (hierro, EPO, etc.), excepto en anemias sintomáticas que requieran tratamiento inmediato.</div>
+
+        <div class="sub-title mt12">Dosificación y administración</div>
+        <ul class="checklist">
+          <li>Adulto: valorar Hb a los <strong>15 min</strong> del fin de transfusión</li>
+          <li>Pediatría: 10–20 ml/kg general; &gt;20 ml/kg en hemorragia aguda</li>
+          <li>Pacientes intolerantes al volumen (cardiópatas, ancianos, anemia severa): ritmo <strong>1 ml/kg/h</strong>, nunca &gt;4 h</li>
+          <li>Si riesgo sobrecarga: fraccionar o furosemida 20–40 mg</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAQUETAS -->
+  <div class="subtab-panel" id="comp-plaquetas">
+    <div class="grid-4 mb16">
+      <div class="stat-block"><div class="stat-num">22 ºC</div><div class="stat-label">Temperatura (±2ºC) con agitación continua</div></div>
+      <div class="stat-block"><div class="stat-num">7 días</div><div class="stat-label">Caducidad máxima</div></div>
+      <div class="stat-block"><div class="stat-num">1u/10 kg</div><div class="stat-label">Dosis habitual adulto (5–7 unidades)</div></div>
+      <div class="stat-block"><div class="stat-num">10–60 min</div><div class="stat-label">Ventana para recuento post-transfusión</div></div>
+    </div>
+
+    <div class="flex">
+      <div class="col-2">
+        <div class="sub-title">Indicaciones según umbral</div>
+        <div class="sub-title-sm">Adulto y neonatos a término</div>
+        <div class="thresh">
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;10×10⁹/L</div><div class="thresh-label">Profilaxis general (&lt;5 en aplasia estable)</div></div>
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;20×10⁹/L</div><div class="thresh-label">+ factor de riesgo (infección grave, anticoagulación…)</div></div>
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;50×10⁹/L</div><div class="thresh-label">Procedimiento invasivo o hemorragia activa</div></div>
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;100×10⁹/L</div><div class="thresh-label">Cirugía SNC o globo ocular</div></div>
+        </div>
+        <div class="sub-title-sm mt12">Neonato prematuro</div>
+        <div class="thresh">
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;50×10⁹/L</div><div class="thresh-label">General</div></div>
+          <div class="thresh-item trigger"><div class="thresh-val">&lt;100×10⁹/L</div><div class="thresh-label">+ factor riesgo (infección grave, etc.)</div></div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="sub-title">Contraindicaciones relativas</div>
+        <div class="alert alert-red">
+          <strong>Contraindicadas</strong> en:<br>
+          · Púrpura trombótica trombocitopénica (PTT)<br>
+          · Trombocitopenia inducida por heparina (TIH)<br>
+          <em>Riesgo potencial de fenómenos trombóticos.</em>
+        </div>
+
+        <div class="sub-title mt12">Dosificación pediátrica</div>
+        <p class="txt-sm">0,5×10¹¹ plaquetas por cada 10 kg de peso (~10 ml/kg).</p>
+
+        <div class="sub-title mt12">Fórmula ICR (Incremento Corregido del Recuento)</div>
+        <div class="alert alert-grey" style="font-family:monospace; font-size:.8rem; line-height:1.8">
+          ICR = (Recuento post – Recuento pre) [×10⁹/L] × SC [m²]<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——————————————————————————<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plaquetas transfundidas [×10¹¹]
+        </div>
+
+        <div class="sub-title mt12">Refractariedad</div>
+        <p class="txt-sm">≥2 determinaciones con <strong>ICR &lt;7,5×10⁹/L</strong> a la hora. Opciones: dosis bajas con mayor frecuencia · Inhibidores de fibrinólisis · Factor VIIa recombinante.</p>
+
+        <div class="sub-title mt12">Compatibilidad ABO</div>
+        <p class="txt-sm">No precisa pruebas de compatibilidad eritrocitaria si contenido en hematíes &lt;2 ml. Si conservadas en plasma o en neonatos: preferible ABO compatible (plasma donante / hematíes receptor).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PFC -->
+  <div class="subtab-panel" id="comp-pfc">
+    <div class="grid-4 mb16">
+      <div class="stat-block"><div class="stat-num">36 meses</div><div class="stat-label">Caducidad congelado &lt;−25ºC</div></div>
+      <div class="stat-block"><div class="stat-num">24 h</div><div class="stat-label">Caducidad una vez descongelado (1–6ºC)</div></div>
+      <div class="stat-block"><div class="stat-num">10–15 ml/kg</div><div class="stat-label">Dosis restauración factores coagulación</div></div>
+      <div class="stat-block"><div class="stat-num">≤ 2 h</div><div class="stat-label">Tiempo máximo de transfusión (preservar factores lábiles)</div></div>
+    </div>
+
+    <div class="alert alert-amber mb12">
+      <span class="alert-icon">⚠️</span>
+      <div>Las indicaciones de PFC son muy <strong>LIMITADAS</strong>. Quedaron establecidas en la Conferencia de Consenso del Ministerio de Sanidad (1993), con modificaciones posteriores.</div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3 style="color:var(--red-800)">✅ Indicaciones establecidas (eficacia demostrada)</h3>
+        <ul class="checklist mt8">
+          <li>Púrpura trombótica trombocitopénica</li>
+          <li>Púrpura fulminante neonatal por déficit congénito de Proteína C/S (sin concentrados específicos)</li>
+          <li>Exanguinotransfusión neonatal para reconstituir CH (sin sangre total)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color:#D97706">⚠️ Indicaciones condicionadas (hemorragia grave + alteración coagulación)</h3>
+        <ul class="checklist mt8">
+          <li>Transfusión masiva</li>
+          <li>Trasplante hepático</li>
+          <li>Déficit congénito de factores sin concentrados específicos</li>
+          <li>Déficit de Vitamina K sin tiempo para respuesta a vitamina K IV</li>
+          <li>Neutralización inmediata anticoagulantes orales (sin complejo protrombínico)</li>
+          <li>Hemorragias por trombolíticos</li>
+          <li>CID aguda</li>
+          <li>Insuficiencia hepática grave + hemorragia con riesgo vital</li>
+          <li>Reposición factores tras recambio plasmático con albúmina</li>
+          <li>Déficit congénito sin concentrados ante cirugía/procedimiento invasivo</li>
+          <li>Anticoagulación oral + cirugía inminente sin tiempo para vitamina K (6–8h) y sin complejo protrombínico</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--g600)">🚫 NO indicado — Situaciones contraindicadas</h3>
+        <ul class="checklist mt8">
+          <li>Expansor de volumen o soporte oncótico/arterial</li>
+          <li>Esquemas predeterminados (1 PFC / 2–3 CH) salvo protocolo transfusión masiva</li>
+          <li>Profilaxis hemorragia intraventricular del prematuro</li>
+          <li>Aporte de inmunoglobulinas</li>
+          <li>Profilaxis en hepatopatía crónica con coagulopatía para procedimientos invasivos menores</li>
+          <li>Hepatopatía crónica terminal</li>
+          <li>Uso rutinario en cirugía cardiaca con CEC</li>
+          <li>Soporte nutricional / corrección hipoproteinemia</li>
+          <li>Aporte de complemento o factores en recambio plasmático (excepto indicaciones previas)</li>
+          <li>Corrección efecto anticoagulante de heparina</li>
+          <li>Reposición de volumen en sangría del recién nacido con poliglobulia</li>
+          <li>Ajuste de hematocrito de CH en neonatos</li>
+        </ul>
+      </div>
+    </div>
+    <p class="txt-xs txt-grey mt8">La dosis de 10–15 ml/kg eleva el nivel de factores aproximadamente un <strong>20%</strong> inmediatamente tras la infusión.</p>
+  </div>
+
+  <!-- CRIOPRECIPITADO -->
+  <div class="subtab-panel" id="comp-crioprecip">
+    <div class="grid-4 mb16">
+      <div class="stat-block"><div class="stat-num">36 meses</div><div class="stat-label">Caducidad congelado &lt;−25ºC</div></div>
+      <div class="stat-block"><div class="stat-num">1u/7–10 kg</div><div class="stat-label">Dosis habitual</div></div>
+      <div class="stat-block"><div class="stat-num">&gt;100 mg/dl</div><div class="stat-label">Objetivo de fibrinógeno tras tratamiento</div></div>
+      <div class="stat-block"><div class="stat-num">10–20 min</div><div class="stat-label">Tiempo de transfusión (máx. 2 h)</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Indicaciones</h3>
+        <ul class="checklist mt8">
+          <li><strong>Hipofibrinogenemia en transfusión masiva</strong> (indicación más frecuente)</li>
+          <li>Disfibrinogenemias congénitas o adquiridas (menos frecuente)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Administración</h3>
+        <ul class="checklist mt8">
+          <li>Transfundir en <strong>10–20 min</strong></li>
+          <li>Pacientes intolerantes al volumen (cardiópatas, oligoanúricos, ancianos): ajustar ritmo</li>
+          <li>Tiempo máximo de transfusión: <strong>nunca exceder 2 horas</strong> (para preservar factores lábiles)</li>
+          <li>Repetir hasta lograr fibrinógeno &gt;100 mg/dl</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────── TAB: IRRADIADOS ─────── -->
+<div class="tab-panel" id="tab-irradiados">
+  <div class="sec-title">Transfusión de Componentes Sanguíneos Irradiados</div>
+
+  <div class="alert alert-amber mb16">
+    <span class="alert-icon">☢️</span>
+    <div>Los componentes irradiados se utilizan para <strong>prevenir la Enfermedad del Injerto contra el Huésped (EICH)</strong> postransfusional en pacientes con riesgo de inmunosupresión grave. La irradiación elimina los linfocitos del donante.</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Indicaciones establecidas</h3>
+      <ul class="checklist mt8">
+        <li><strong>Inmunodeficiencias congénitas</strong></li>
+        <li>Transfusiones intrauterinas (pediatría)</li>
+        <li>Exanguinotransfusión en receptores de transfusiones intrauterinas</li>
+        <li>Neonatos de peso inferior a <strong>1.250 gramos</strong></li>
+        <li><strong>Enfermedad de Hodgkin</strong></li>
+        <li>Pacientes que reciben/recibieron <strong>análogos de purinas</strong> (fludarabina, cladribina, pentostatina)</li>
+        <li>Transfusiones con identidad parcial o total HLA</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Trasplante de Progenitores Hematopoyéticos (TPH)</h3>
+      <div class="sub-title-sm mt8">Autólogo</div>
+      <ul class="checklist">
+        <li>Desde <strong>14 días antes de la extracción</strong> de progenitores hasta finalizado este</li>
+        <li>Desde <strong>14 días antes del trasplante</strong> hasta al menos 3 meses después</li>
+        <li>O hasta evidencia de implante del injerto + reconstitución inmunológica</li>
+      </ul>
+      <div class="sub-title-sm mt12">Alogénico</div>
+      <ul class="checklist">
+        <li>Desde inicio del <strong>régimen de acondicionamiento</strong></li>
+        <li>Hasta que el paciente no reciba profilaxis para EICH</li>
+        <li>O cifra de linfocitos &gt;1×10⁹/L</li>
+        <li>En caso de EICH crónica o inmunosupresión: prolongar hasta <strong>2 o más años</strong></li>
+      </ul>
+      <div class="sub-title-sm mt12">Transfusiones HLA compatibles</div>
+      <ul class="checklist">
+        <li>Receptores de donaciones de <strong>familiares de primer grado</strong></li>
+        <li>Receptores de donaciones de donantes HLA compatibles</li>
+        <li>Receptores heterocigotos para locus HLA en que el donante es homocigoto</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ─────── TAB: ALTERNATIVAS ─────── -->
+<div class="tab-panel" id="tab-alternativas">
+  <div class="sec-title">Alternativas a la Transfusión de Sangre Alogénica</div>
+
+  <div class="alert alert-grey mb16">
+    <span class="alert-icon">ℹ️</span>
+    <div><strong>Programa de Ahorro de Sangre (PAS):</strong> Destinado a disminuir el uso de sangre homóloga sin aumentar el nº total de transfusiones, aumentando el uso de componentes autólogos. Solo para cirugías con riesgo significativo de transfusión. No relaja las indicaciones estrictas de transfusión.</div>
+  </div>
+
+  <div class="subtab-row" id="altSubtabs">
+    <div class="subtab active" onclick="showSubtab('alt','epo',this)">I. EPO y hemínicos</div>
+    <div class="subtab" onclick="showSubtab('alt','predep',this)">II. Predepósito autólogo</div>
+    <div class="subtab" onclick="showSubtab('alt','hemodil',this)">III. Hemodilución normovolémica</div>
+    <div class="subtab" onclick="showSubtab('alt','recuper',this)">IV. Recuperación intra/post-op</div>
+  </div>
+
+  <div class="subtab-panel active" id="alt-epo">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Objetivos de la EPO (alfa-eritropoyetina)</h3>
+        <ul class="checklist mt8">
+          <li>Aumentar producción de sangre autóloga en programas de predonación</li>
+          <li>Disminuir transfusiones alogénicas antes de cirugía mayor ortopédica electiva con:
+            <ul style="padding-left:14px; margin-top:4px">
+              <li class="txt-sm">Pérdida esperada de 900–1.800 ml</li>
+              <li class="txt-sm">Alto riesgo de complicaciones transfusionales</li>
+              <li class="txt-sm">Sin programa de predonación disponible</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="sub-title-sm mt12">Indicación</div>
+        <p class="txt-sm">Anemia moderada (Hb: <strong>10–13 g/dl</strong>) y <strong>sin déficit de hierro</strong>.</p>
+      </div>
+      <div class="card">
+        <h3>Dosis y contraindicaciones</h3>
+        <div class="sub-title-sm">Dosis</div>
+        <ul class="checklist">
+          <li>Con predonación: <strong>600 UI/kg</strong>, 2 veces/semana × 3 semanas previas</li>
+          <li>Sin predonación: <strong>600 UI/kg/semana</strong> en días −21, −14, −7 y día de la cirugía</li>
+        </ul>
+        <div class="sub-title-sm mt12">Contraindicaciones</div>
+        <div class="alert alert-red mt8">
+          HTA mal controlada · Coronariopatías · Arteriopatías periféricas · Patología carotídea o cerebrovascular grave · IAM o ACV reciente · Pacientes que no puedan recibir tromboprofilaxis adecuada
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subtab-panel" id="alt-predep">
+    <div class="card">
+      <h3>Donación autóloga predepósito</h3>
+      <p class="mt8">Extracción, almacenamiento y posterior transfusión de la propia sangre del paciente antes de una cirugía programada.</p>
+      <div class="sub-title-sm mt12">Protocolo habitual</div>
+      <ul class="checklist">
+        <li>Donación de <strong>1 unidad por semana</strong></li>
+        <li>Última donación al menos <strong>72 horas</strong> antes de la intervención</li>
+        <li>Los componentes autólogos no transfundidos <strong>no pueden usarse</strong> para transfusión homóloga ni para fraccionamiento</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="subtab-panel" id="alt-hemodil">
+    <div class="card">
+      <h3>Hemodilución normovolémica</h3>
+      <p class="mt8">Extracción de 1 o más unidades de sangre inmediatamente antes de la intervención, con infusión simultánea de coloides o cristaloides para mantener la volemia, con transfusión posterior de la sangre extraída durante o tras la cirugía.</p>
+      <div class="alert alert-grey mt12">Permite que la sangre perdida durante la cirugía contenga menos eritrocitos, reduciendo las pérdidas reales.</div>
+    </div>
+  </div>
+
+  <div class="subtab-panel" id="alt-recuper">
+    <div class="card">
+      <h3>Recuperación intra y postoperatoria de sangre</h3>
+      <div class="sub-title-sm mt8">Intraoperatoria</div>
+      <p class="txt-sm">Recolección de sangre recuperada del campo operatorio o de un circuito extracorpóreo durante la intervención.</p>
+      <div class="sub-title-sm mt12">Postoperatoria</div>
+      <p class="txt-sm">Recolección de la sangre de drenajes, cavidades articulares, etc. tras la intervención.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─────── TAB: DERIVADOS PLASMÁTICOS ─────── -->
+<div class="tab-panel" id="tab-derivados">
+  <div class="sec-title">Derivados Plasmáticos</div>
+
+  <div class="alert alert-grey mb16">
+    <span class="alert-icon">ℹ️</span>
+    <div>Productos obtenidos a partir de plasma humano, preparados en plantas fraccionadoras industriales a partir de mezclas de plasma de <strong>5.000 a 10.000 donantes</strong>.</div>
+  </div>
+
+  <div class="subtab-row" id="derSubtabs">
+    <div class="subtab active" onclick="showSubtab('der','albumina',this)">Albúmina</div>
+    <div class="subtab" onclick="showSubtab('der','ig-im',this)">Ig Inespecíficas IM</div>
+    <div class="subtab" onclick="showSubtab('der','ig-iv',this)">Ig Inespecíficas IV</div>
+    <div class="subtab" onclick="showSubtab('der','ig-esp',this)">Ig Específicas</div>
+    <div class="subtab" onclick="showSubtab('der','factores',this)">Factores Coagulación</div>
+    <div class="subtab" onclick="showSubtab('der','hemofilia',this)">Hemofilia A</div>
+  </div>
+
+  <!-- Albúmina -->
+  <div class="subtab-panel active" id="der-albumina">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Albúmina humana — Presentación: 5% y 20%</h3>
+        <div class="sub-title-sm mt8">Indicaciones</div>
+        <ul class="checklist">
+          <li>Hipovolemia: contraindicación de coloides y cristaloides</li>
+          <li>Hipoalbuminemia: albúmina &lt;20 g/l (periodos cortos)</li>
+          <li>Recambio plasmático &gt;20 ml/kg/día</li>
+          <li>Peritonitis bacteriana espontánea</li>
+          <li>Paracentesis de más de 5 litros en ascitis refractarias</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Dosificación y administración</h3>
+        <div class="sub-title-sm">Fórmula dosis</div>
+        <div class="alert alert-grey" style="font-family:monospace; font-size:.82rem; line-height:1.8; margin-top:8px">
+          Dosis (g) = (Conc. deseada − Conc. actual) [g/dl]<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× (kg peso × 0,8)
+        </div>
+        <div class="sub-title-sm mt12">Ritmo de infusión</div>
+        <ul class="checklist">
+          <li>Albúmina 20%: <strong>1–2 ml/min</strong></li>
+          <li>Albúmina 5%: <strong>5 ml/min</strong></li>
+          <li>Velocidad individualizada según tolerancia</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ig IM -->
+  <div class="subtab-panel" id="der-ig-im">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Indicación</th><th>Situación</th><th>Dosis</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="3"><strong>Hepatitis A</strong></td><td>Profilaxis en contacto</td><td>0,02 ml/kg · dosis única antes de 2 semanas</td></tr>
+          <tr><td>Viaje zona endémica sin vacunación, estancia &lt;3 meses</td><td>0,02 ml/kg · dosis única</td></tr>
+          <tr><td>Viaje zona endémica sin vacunación, estancia &gt;3 meses</td><td>0,06 ml/kg cada 4–6 semanas</td></tr>
+          <tr><td rowspan="2"><strong>Sarampión</strong></td><td>Profilaxis en contacto (inmunocompetente)</td><td>0,25 ml/kg · única (máx 15 ml) antes de 7 días</td></tr>
+          <tr><td>Pacientes inmunosuprimidos</td><td>0,5 ml/kg · única (máx 15 ml) antes de 7 días</td></tr>
+          <tr><td rowspan="3"><strong>Inmunodeficiencias primarias y secundarias</strong></td><td>Inicio</td><td>1–2 ml/kg</td></tr>
+          <tr><td>Mantenimiento</td><td>0,7 ml/kg cada 2–4 semanas</td></tr>
+          <tr><td>Dosis máxima</td><td>Niño: 20–30 ml · Adulto: 50 ml</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Ig IV -->
+  <div class="subtab-panel" id="der-ig-iv">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Indicación</th><th>Situación</th><th>Dosis</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Inmunodeficiencias primarias</strong> (agammaglobulinemia X-linked, SCID, hiper-IgM, CVID, infecciones graves recidivantes)</td><td>Tratamiento de mantenimiento</td><td>Inicio: 0,4–0,8 g/kg · Mantenimiento: 0,25 g/kg/3–4 sem · Ajustar IgG &gt;5 g/l</td></tr>
+          <tr><td><strong>Inmunodeficiencias secundarias</strong></td><td>&gt;3 infecciones graves/año o sepsis</td><td>0,2–0,4 g/kg cada 2–4 semanas</td></tr>
+          <tr><td><strong>Niños con VIH</strong></td><td>Iniciar antes de CD4 &lt;200/l</td><td>0,2–0,4 g/kg cada 3–4 semanas</td></tr>
+          <tr><td><strong>TPH alogénico</strong></td><td>Profilaxis infecciones/EICH; déficit persistente de Ac</td><td>0,5 g/kg inicio · 0,5 g/kg/sem × 3 meses · 0,5 g/kg/4 sem</td></tr>
+          <tr><td><strong>PTI</strong></td><td>Situación de riesgo (hemorragia/pre-cirugía)</td><td>0,8–1 g/kg/día × 1–2 días, ó 0,4 g/kg/día × 3–5 días</td></tr>
+          <tr><td><strong>Otras indicaciones</strong></td><td>Guillén-Barré · Kawasaki · Refractariedad plaquetaria · EM recidivante · Hemofilia con inhibidor FVIII · Necrólisis epidérmica · Púrpura postransfusional</td><td>0,8–1 g/kg/día × 1–2 días, ó 0,4 g/kg/día × 3–5 días</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Ig Específicas -->
+  <div class="subtab-panel" id="der-ig-esp">
+    <div class="tbl-wrap mb12">
+      <table>
+        <thead><tr><th>Inmunoglobulina</th><th>Indicación</th><th>Dosis y plazo</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="4"><strong>Anti-Rh(D)</strong></td><td>Mujer Rh(D)− · Gestación semana 28</td><td>300 µg</td></tr>
+          <tr><td>Aborto/embarazo ectópico/mola/amniocentesis/biopsia/placenta previa</td><td>&lt;72h: 50 µg si &lt;12 sem · 300 µg si &gt;12 sem</td></tr>
+          <tr><td>Postparto</td><td>&lt;72h: 300 µg</td></tr>
+          <tr><td>Tras transfusión de componentes con hematíes Rh(D)+</td><td>&lt;72h: 250–300 µg (plaquetas) · 10–15 µg/ml CH transfundido</td></tr>
+          <tr><td><strong>Anti-Hepatitis B</strong></td><td>Exposición percutánea/mucosa en no inmunizados</td><td>&lt;48h: 12–20 UI/kg</td></tr>
+          <tr><td><strong>Anti-Hepatitis B</strong></td><td>RN de madre HBsAg+</td><td>&lt;12h: 40 UI/kg</td></tr>
+          <tr><td><strong>Anti-Tetánica</strong></td><td>Heridas + sin vacunación en 10 años</td><td>250 UI (500 UI si desbridamiento tardío)</td></tr>
+          <tr><td><strong>Anti-Tetánica</strong></td><td>Tratamiento del tétanos</td><td>3000–6000 UI/24h (según evolución)</td></tr>
+          <tr><td><strong>Anti-Rábica</strong></td><td>Mordedura animal con posible contagio</td><td>20 UI/kg + iniciar vacunación</td></tr>
+          <tr><td><strong>Anti-CMV</strong></td><td>Previo a trasplante de órganos</td><td>100–150 mg/kg ó 50–100 U-PEI/kg cada 2–3 semanas</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Factores Coagulación -->
+  <div class="subtab-panel" id="der-factores">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Deficiencia</th><th>Cirugía mayor</th><th>Cirugía menor</th><th>Sangrado espontáneo</th><th>Comentarios</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fibrinógeno</strong></td><td>Conc. 20–30 mg/kg · PFC 15–20 ml/kg · Crioprec. 1/10kg · Nivel: &gt;50 mg/dl</td><td>PFC 15–20 ml/kg · Nivel: &gt;50 mg/dl · 2–3 días</td><td>PFC 15–20 ml/kg hasta cese Hg</td><td>Profilaxis conc. semanal si sangrado severo frecuente</td></tr>
+          <tr><td><strong>Protrombina</strong></td><td>CCP 20–30 U/kg · PFC 15–20 ml/kg · Nivel: &gt;30%</td><td>PFC 15–20 ml/kg · &gt;30% · 2–3 días</td><td>PFC hasta cese Hg</td><td>Tras CCP: FVII, FIX, FX no deben exceder el 150%</td></tr>
+          <tr><td><strong>Factor V</strong></td><td>PFC 15–20 ml/kg · Nivel: &gt;20%</td><td>Como CM · &gt;20% · 2–3 días</td><td>Como CM hasta cicatrización</td><td>No hay concentrados disponibles</td></tr>
+          <tr><td><strong>Factor VII</strong></td><td>FVIIar 15–30 µg/kg/12h · Conc. 30–40 U/kg/12h · Nivel: &gt;20%</td><td>Como CM · 2–3 días</td><td>Como CM hasta cese Hg</td><td>Monitorizar actividad FVII</td></tr>
+          <tr><td><strong>Factor VIII</strong></td><td>Leve: DDAVP 0,3 µg/kg · Severa: Conc. 40–50 U/kg · Nivel inicial: 60–100%</td><td>Leve: DDAVP · Severa: Conc. 25 U/kg · 50% · 2–3 días</td><td>Nivel 40–100% según localización</td><td>Con inhibidores: FVIIar 90 µg/kg · CCP 30–50 U/kg/12h · CCPa 75–100 U/kg</td></tr>
+          <tr><td><strong>Factor IX</strong></td><td>Conc. 60–80 U/kg · Nivel inicial 60–80%, luego 30%</td><td>Conc. 40 U/kg · 40% · 2–3 días</td><td>30–80% según localización</td><td>Con inhibidores: FVIIar · CCP · CCPa</td></tr>
+          <tr><td><strong>Factor X</strong></td><td>CCP 20–30 U/kg · PFC 15–20 ml/kg · &gt;20%</td><td>PFC · &gt;30% · 2–3 días</td><td>Como CM hasta cese Hg</td><td>Tras CCP no exceder 150%</td></tr>
+          <tr><td><strong>Factor XI</strong></td><td>PFC 15–20 ml/kg · &gt;20%</td><td>Como CM · 2–3 días</td><td>Como CM hasta cese Hg</td><td>Infusiones a días alternos generalmente suficiente</td></tr>
+          <tr><td><strong>Factor XIII</strong></td><td>Conc. 10–20 U/kg · PFC · Crioprec. · &gt;5%</td><td>Como CM · 2–3 días</td><td>Como CM hasta cese Hg</td><td>Profilaxis en todos los pacientes, cada 20–30 días</td></tr>
+          <tr><td><strong>Factor von Willebrand</strong></td><td>T1: DDAVP 0,3 µg/kg · T2–3: Conc. FVIII/FvW 50 U/kg · FVIII &gt;50%</td><td>T1: DDAVP · T2–3: Conc. 40 U/kg · FVIII &gt;30% · 2–3 días</td><td>T1: DDAVP · T2–3: Conc. 25 U/kg · FVIII &gt;30%</td><td>Con inhibidores: FVIII recombinante o FVIIar</td></tr>
+          <tr><td><strong>Proteína C</strong></td><td>Conc. 40 UI/kg/12h hasta reinicio anticoagulación oral</td><td>—</td><td>—</td><td>Administrar también al inicio de cumarínicos</td></tr>
+          <tr><td><strong>Antitrombina III</strong></td><td>Conc. 60 U/kg/24h · Niveles &gt;80–100%</td><td>—</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt8 txt-xs txt-grey"><strong>Abreviaturas:</strong> PFC: plasma fresco congelado · CCP: concentrado complejo protrombínico · CCPa: CCP activado · FVIIar: FVII activo recombinante · DDAVP: desmopresina</p>
+  </div>
+
+  <!-- Hemofilia A -->
+  <div class="subtab-panel" id="der-hemofilia">
+    <div class="sub-title">Hemofilia A grave — Dosis de inicio de Factor VIII</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Indicación clínica</th><th>Dosis inicial (UI/kg)</th></tr></thead>
+        <tbody>
+          <tr><td>Hemorragia músculo-articular, cutánea, epistaxis, hematuria</td><td>20–40 UI/kg (niños: 30–40)</td></tr>
+          <tr><td>Hemorragia con riesgo vital</td><td>40–70 UI/kg</td></tr>
+          <tr><td>Cirugía mayor (incluida amigdalectomía)</td><td>50–80 UI/kg (niños: 80–120)</td></tr>
+          <tr><td>Cirugía menor</td><td>20–40 UI/kg (niños: 50–100)</td></tr>
+          <tr><td>Hemorragia oral, gastrointestinal, tejidos blandos</td><td>30–60 UI/kg</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ─────── TAB: PRÁCTICA TRANSFUSIONAL ─────── -->
+<div class="tab-panel" id="tab-practica">
+  <div class="sec-title">La Práctica Transfusional</div>
+
+  <div class="grid-2 mb16">
+    <div class="card">
+      <h3>Solicitud de transfusión (SELENE → BCS)</h3>
+      <div class="alert alert-amber mt8">La administración de sangre siempre requiere <strong>prescripción médica</strong> y consentimiento informado del paciente (salvo urgencia).</div>
+      <div class="sub-title-sm mt12">Datos obligatorios en la solicitud</div>
+      <ul class="checklist">
+        <li>Indicación (motivo) y diagnóstico</li>
+        <li>Componente solicitado: producto + cantidad (unidades o volumen en pediátrico)</li>
+        <li>Plan de uso: <span class="pill pill-red">Extrema urgencia</span> <span class="pill pill-amber">Urgente</span> <span class="pill pill-grey">En el día</span> <span class="pill pill-grey">Cruzar y reservar</span> <span class="pill pill-green">Programada</span> <span class="pill pill-grey">IQ programada</span></li>
+        <li>Parámetros hematológicos</li>
+        <li>Observaciones relevantes</li>
+      </ul>
+      <div class="alert alert-red mt12">El formulario de solicitud <strong>NO es una orden terapéutica</strong>. Debe existir una orden médica escrita en el apartado de órdenes farmacológicas de SELENE. El facultativo que la rubrica es el <strong>responsable legal</strong>.</div>
+    </div>
+    <div class="card">
+      <h3>Velocidad de infusión de componentes</h3>
+      <div class="tbl-wrap mt8">
+        <table>
+          <thead><tr><th>Producto</th><th>Volumen</th><th>Conservación</th><th>Duración</th><th>Ritmo</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Hematíes</strong></td><td>200–300 ml</td><td>1–6ºC · 35–42 días</td><td>60–120 min</td><td>30–60 gts/min</td></tr>
+            <tr><td><strong>Plasma</strong></td><td>200–300 ml</td><td>Congelado &lt;−25ºC: 36 m · Desc. 1–6ºC: 24 h</td><td>20–30 min</td><td>125–175 gts/min</td></tr>
+            <tr><td><strong>Plasma aféresis</strong></td><td>300–600 ml</td><td>Congelado &lt;−25ºC: 36 m · Desc. 1–6ºC: 24 h</td><td>30–60 min</td><td>125–175 gts/min</td></tr>
+            <tr><td><strong>Plaquetas</strong> (pool 5u/aféresis)</td><td>200–300 ml</td><td>22ºC agitación: 7 días · Circuito abierto: 6 h</td><td>20–30 min</td><td>125–225 gts/min</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🚨 Actuación ante reacción transfusional inmediata</h3>
+      <ol class="step-list mt8">
+        <li>Detener la transfusión para limitar la cantidad de componente infundido.</li>
+        <li>Mantener la vía IV infundiendo solución salina isotónica.</li>
+        <li><strong>Avisar al médico responsable del paciente.</strong></li>
+        <li>Verificar registros, etiquetas e identificaciones del producto y el paciente.</li>
+        <li>Control de temperatura, TA, FC, FR y diuresis.</li>
+        <li>Comunicar <strong>de inmediato</strong> la sospecha al Servicio de Transfusión y seguir instrucciones.</li>
+        <li><strong>Enviar la bolsa causante + impreso de registro de reacciones</strong> al Servicio de Transfusión.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>✅ Fin de la transfusión — Checklist</h3>
+      <ol class="step-list mt8">
+        <li><strong>No desechar la bolsa hasta pasadas 3 horas</strong> del final de la transfusión.</li>
+        <li>Informar al Servicio de Transfusión ante cualquier incidencia ocurrida durante la transfusión <strong>o en las tres horas siguientes</strong>.</li>
+        <li>Ir al menú superior de SELENE, icono 🩸 (e-Delphyn), y registrar fecha, hora y constantes vitales postransfusión.</li>
+      </ol>
+      <div class="alert alert-grey mt12">
+        <strong>Recuerda:</strong> Los componentes especiales (irradiados, lavados, etc.) siguen las instrucciones adicionales indicadas en su etiqueta. La velocidad puede reducirse en cardiópatas, oligoanúricos, ancianos o anemias severas.
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-title mt20">Resumen rápido — Umbrales y dosis de los principales componentes</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Componente</th><th>Umbral transfusión</th><th>Dosis adulto</th><th>Evaluación post-transfusión</th><th>Duración máx.</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Concentrado hematíes</strong></td><td>Hb &lt;7–10 g/dl según contexto</td><td>1 unidad → ↑ Hb 0,8 g/dl (70 kg)</td><td>Hb a los 15 min del fin</td><td>4 h</td></tr>
+        <tr><td><strong>Plaquetas</strong></td><td>&lt;10–100 ×10⁹/L según contexto</td><td>1u/10 kg (5–7u)</td><td>Recuento 10–60 min</td><td>Variable (circuito abierto 6h)</td></tr>
+        <tr><td><strong>PFC</strong></td><td>Hemorragia grave + alt. coagulación (indicaciones limitadas)</td><td>10–15 ml/kg → ↑ factores ~20%</td><td>Coagulación post-transfusión</td><td>2 h</td></tr>
+        <tr><td><strong>Crioprecipitado</strong></td><td>Hipofibrinogenemia / disfibrinogenemia</td><td>1u/7–10 kg · Repetir hasta fibrinógeno &gt;100 mg/dl</td><td>Fibrinógeno</td><td>2 h (administración 10–20 min)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- end .main -->
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <p>© Dr. Salvador Villalgordo - OptiH – Licencia <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>. Se permite uso y adaptación no comercial con atribución. Marzo 2026.</p>
+  <p style="margin-top:4px; font-size:.68rem; color:#6B7280">Basado en: Guía de Bolsillo de Uso de Hemocomponentes · Comité Hospitalario de Transfusión · Hospital Universitario San Agustín · Área Sanitaria III (SESPA) · Diciembre 2024</p>
+</footer>
+
+<script>
+// ── TAB SWITCHING ──
+function showTab(id, el) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  if (el) { el.classList.add('active'); }
+  else {
+    const tabs = document.querySelectorAll('.nav-tab');
+    const map = {inicio:0,donacion:1,adversos:2,hemovig:3,componentes:4,irradiados:5,alternativas:6,derivados:7,practica:8};
+    if (map[id] !== undefined) tabs[map[id]].classList.add('active');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── SUB-TAB SWITCHING ──
+function showSubtab(prefix, id, el) {
+  const panels = document.querySelectorAll('[id^="' + prefix + '-"]');
+  panels.forEach(p => p.classList.remove('active'));
+  const allSubtabs = el ? el.closest('.subtab-row').querySelectorAll('.subtab') : [];
+  allSubtabs.forEach(t => t.classList.remove('active'));
+  const target = document.getElementById(prefix + '-' + id);
+  if (target) target.classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+// ── SEARCH ──
+const searchData = [
+  {title:'Donantes y donación altruista',section:'Donación & Pruebas',tab:'donacion',keywords:'donacion donantes altruismo sangre'},
+  {title:'Etiquetado de componentes sanguíneos',section:'Donación & Pruebas',tab:'donacion',keywords:'etiqueta etiquetado componentes ABO Rh caducidad'},
+  {title:'Pruebas analíticas obligatorias (VIH, VHC, VHB, sífilis)',section:'Donación & Pruebas',tab:'donacion',keywords:'analisis pruebas VIH VHC VHB sifilis anticuerpos hepatitis'},
+  {title:'Riesgo residual transfusional (período ventana)',section:'Donación & Pruebas',tab:'donacion',keywords:'riesgo residual periodo ventana VIH hepatitis'},
+  {title:'Reacción hemolítica aguda',section:'Efectos Adversos',tab:'adversos',keywords:'hemolisis hemolitica aguda incompatibilidad ABO'},
+  {title:'TRALI — Lesión pulmonar aguda por transfusión',section:'Efectos Adversos',tab:'adversos',keywords:'TRALI pulmonar lesion aguda transfusion'},
+  {title:'Sobrecarga circulatoria (TACO)',section:'Efectos Adversos',tab:'adversos',keywords:'sobrecarga circulatoria TACO furosemida edema pulmonar'},
+  {title:'Reacción alérgica grave: clorfenamina, adrenalina',section:'Efectos Adversos',tab:'adversos',keywords:'alergica anafilaxia clorfenamina adrenalina broncoespasmo'},
+  {title:'Protocolo actuación reacción transfusional inmediata',section:'Efectos Adversos',tab:'adversos',keywords:'protocolo reaccion adversa parar transfusion avisar medico'},
+  {title:'Hemovigilancia — definición y normativa',section:'Hemovigilancia',tab:'hemovig',keywords:'hemovigilancia definicion RD 1088 2005 directiva europea trazabilidad'},
+  {title:'Escalas de gravedad e imputabilidad',section:'Hemovigilancia',tab:'hemovig',keywords:'gravedad imputabilidad escala grado notificacion'},
+  {title:'Sistema Estatal de Hemovigilancia — 3 niveles',section:'Hemovigilancia',tab:'hemovig',keywords:'SEHV niveles ministerio autonomico centro transfusion'},
+  {title:'Concentrado de hematíes — conservación y caducidad',section:'Componentes',tab:'componentes',keywords:'hematies conservacion caducidad 42 dias 2 6 grados'},
+  {title:'Umbrales transfusión hematíes adulto',section:'Componentes',tab:'componentes',keywords:'umbral hemoglobina 7 8 9 10 transfusion hematíes adulto'},
+  {title:'Anemia crónica — criterios transfusión',section:'Componentes',tab:'componentes',keywords:'anemia cronica tratamiento causal ferroterapia B12 folato umbral'},
+  {title:'Anemia pediátrica — tablas por edad',section:'Componentes',tab:'componentes',keywords:'pediatrica neonato lactante umbral hemoglobina cirugía'},
+  {title:'Concentrado de plaquetas — indicaciones y umbrales',section:'Componentes',tab:'componentes',keywords:'plaquetas umbral 10 20 50 100 indicaciones'},
+  {title:'Refractariedad plaquetaria — ICR',section:'Componentes',tab:'componentes',keywords:'refractariedad plaquetaria ICR incremento corregido recuento'},
+  {title:'Contraindicaciones plaquetas: PTT y TIH',section:'Componentes',tab:'componentes',keywords:'contraindicacion plaquetas PTT purpura trombotica heparina TIH'},
+  {title:'PFC — indicaciones establecidas (PTT, neonato)',section:'Componentes',tab:'componentes',keywords:'PFC plasma fresco congelado indicaciones establecidas purpura trombotica'},
+  {title:'PFC — indicaciones NO aceptadas',section:'Componentes',tab:'componentes',keywords:'PFC no indicado contraindicado expansor oncótico profilaxis'},
+  {title:'Crioprecipitado — hipofibrinogenemia',section:'Componentes',tab:'componentes',keywords:'crioprecipitado fibrinogeno hipofibrinogenemia transfusion masiva'},
+  {title:'Componentes irradiados — EICH',section:'Irradiados',tab:'irradiados',keywords:'irradiados EICH injerto huesped linfocitos hodgkin fludarabina TPH'},
+  {title:'Trasplante hematopoyético — cuándo irradiar',section:'Irradiados',tab:'irradiados',keywords:'trasplante progenitores hematopoyeticos TPH autólogo alogénico irradiacion'},
+  {title:'EPO — eritropoyetina, dosis y contraindicaciones',section:'Alternativas',tab:'alternativas',keywords:'EPO eritropoyetina dosis contraindicaciones HTA coronariopatia'},
+  {title:'Donación autóloga predepósito',section:'Alternativas',tab:'alternativas',keywords:'autologa predeposito donacion propia sangre preoperatoria'},
+  {title:'Hemodilución normovolémica',section:'Alternativas',tab:'alternativas',keywords:'hemodilución normovolémica coloides cristaloides extracción'},
+  {title:'Albúmina — indicaciones, dosis y fórmula',section:'Derivados Plasmáticos',tab:'derivados',keywords:'albumina 5 20 hipovolemia hipoalbuminemia paracentesis ascitis'},
+  {title:'Inmunoglobulinas intravenosas (IGIV)',section:'Derivados Plasmáticos',tab:'derivados',keywords:'inmunoglobulina intravenosa IGIV inmunodeficiencia PTI Kawasaki Guillén-Barré'},
+  {title:'Inmunoglobulina anti-Rh(D)',section:'Derivados Plasmáticos',tab:'derivados',keywords:'anti-RhD profilaxis postparto gestación aborto'},
+  {title:'Inmunoglobulina anti-hepatitis B',section:'Derivados Plasmáticos',tab:'derivados',keywords:'anti-hepatitis anti-HB inmunoglobulina recien nacido HBsAg'},
+  {title:'Factores de coagulación — tablas de tratamiento',section:'Derivados Plasmáticos',tab:'derivados',keywords:'factores coagulación VII VIII IX X XI XIII von Willebrand'},
+  {title:'Hemofilia A grave — dosis FVIII según situación',section:'Derivados Plasmáticos',tab:'derivados',keywords:'hemofilia FVIII factor VIII cirugía hemartros hemorragia'},
+  {title:'Solicitud de transfusión en SELENE',section:'Práctica Transfusional',tab:'practica',keywords:'solicitud SELENE BCS peticion orden medica facultativo'},
+  {title:'Velocidad de infusión — tabla por componente',section:'Práctica Transfusional',tab:'practica',keywords:'velocidad infusion ritmo gotas hematíes plasma plaquetas tiempo'},
+  {title:'Protocolo reacción transfusional inmediata — 7 pasos',section:'Práctica Transfusional',tab:'practica',keywords:'protocolo reaccion inmediata parar vena avisar medico bolsa'},
+  {title:'Fin de la transfusión — checklist post-transfusión',section:'Práctica Transfusional',tab:'practica',keywords:'fin transfusion bolsa 3 horas selene e-delphyn constantes'},
+];
+
+const input = document.getElementById('searchInput');
+const resultsDiv = document.getElementById('search-results');
+
+input.addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  if (!q || q.length < 2) { resultsDiv.style.display='none'; resultsDiv.innerHTML=''; return; }
+  const matches = searchData.filter(item =>
+    item.title.toLowerCase().includes(q) ||
+    item.keywords.toLowerCase().includes(q) ||
+    item.section.toLowerCase().includes(q)
+  ).slice(0,8);
+  if (!matches.length) { resultsDiv.style.display='none'; return; }
+  resultsDiv.innerHTML = matches.map(m => {
+    const hi = m.title.replace(new RegExp('(' + q + ')', 'gi'), '<span class="search-highlight">$1</span>');
+    return `<div class="search-result-item" onclick="showTab('${m.tab}',null); clearSearch();">
+      <strong>${hi}</strong>
+      <div class="search-result-section">📂 ${m.section}</div>
+    </div>`;
+  }).join('');
+  resultsDiv.style.display='block';
+});
+
+function clearSearch() {
+  input.value = '';
+  resultsDiv.style.display = 'none';
+  resultsDiv.innerHTML = '';
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.search-wrap')) clearSearch();
+});
+</script>
+</body>
+</html>
